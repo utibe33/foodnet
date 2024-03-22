@@ -1,9 +1,10 @@
 import { malidate } from "../assets/images"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import toast from "react-hot-toast"
+import { GlobalContext } from "../context/AuthContext"
 
 export default function SignUp() {
-  const [allUsers, setAllUsers] = useState(JSON.parse(localStorage.getItem("foodnet__users")) || [])
+  const {allUsers,setAllUsers} = useContext(GlobalContext)
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [phone, setPhone] = useState("")
@@ -32,8 +33,8 @@ export default function SignUp() {
         return;
       }
       else{
-        setAllUsers(prevUsers => [{...user}, ...prevUsers])
-        localStorage.setItem("oodnet__users", JSON.stringify(allUsers))
+        setAllUsers(prevUsers => ([{...user}, ...prevUsers]))
+        localStorage.setItem("foodnet__users", JSON.stringify([{...user}, ...allUsers]))
         toast.success(`Welcome ${firstName} ${lastName}. Please, login to continue`)
       }
       

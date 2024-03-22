@@ -1,12 +1,13 @@
 import TextInput from "../components/TextInput"
 import {robin} from "../assets/images"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import toast from "react-hot-toast"
+import { GlobalContext } from "../context/AuthContext"
 
 export default function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [allUsers, setAllUsers] = useState(JSON.parse(localStorage.getItem("foodnet__users")) || [])
+  const {setCurrentUser,allUsers} = useContext(GlobalContext)
   
   const handleSubmit = e => {
     e.preventDefault()
@@ -14,6 +15,7 @@ export default function Login() {
       toast.loading(`Please wait...`,{id:"86065",} )
       const findUser = allUsers.find(user => user.email === email.toLocaleLowerCase() && user.password === password)
       if(findUser){
+        setCurrentUser(() => findUser)
         toast.success(`Welcome ${findUser.firstName} ${findUser.lastName}`,{id:"86065", duration: "5000"} )
       }
       else{
